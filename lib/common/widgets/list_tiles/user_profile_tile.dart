@@ -1,7 +1,9 @@
 import 'package:del_cafeshop/common/widgets/images/circular_image.dart';
+import 'package:del_cafeshop/features/personalization/screens/profile/profile.dart';
 import 'package:del_cafeshop/utils/constants/colors.dart';
 import 'package:del_cafeshop/utils/constants/image_strings.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class UserProfileTile extends StatelessWidget {
@@ -16,7 +18,7 @@ class UserProfileTile extends StatelessWidget {
     
      title: Text('Pedro Marcel Hutagaol' , style: Theme.of(context).textTheme.headlineSmall!.apply(color: TColors.white)),
      subtitle: Text('pedromhutagaol@gmail.com' , style: Theme.of(context).textTheme.bodyMedium!.apply(color: TColors.white)),
-     trailing: IconButton(onPressed: (){}, icon: const Icon(Iconsax.edit, color: TColors.white)),
-                        );
+     trailing: IconButton(onPressed: () => Get.to(() => const ProfileScreen()), icon: const Icon(Iconsax.edit, color: TColors.white)),
+);
   }
 }

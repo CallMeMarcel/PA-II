@@ -23,6 +23,7 @@ class LoginScreen extends StatelessWidget {
               const LoginHeader(),
 
               // Login Form
+              const SizedBox(height: TSizes.spaceBtwItems),
               const LoginForm(),
 
               // Divider

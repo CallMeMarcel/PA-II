@@ -55,10 +55,17 @@ class ProductImageSlider extends StatelessWidget {
             ),
     
             // Appbar Icon
-          const TAppbar(
-            showBackArrow: true,
-            actions: [CircularIcon(icon: Iconsax.heart5,color: Colors.red)],
-          ),
+         const TAppbar(
+  showBackArrow: true,
+  actions: [
+    CircularIcon(
+      icon: Iconsax.heart5,
+      color: Colors.red,
+      backgroundColor: Colors.transparent, // Menghilangkan background
+    ),
+  ],
+),
+
            
           ],
         ),

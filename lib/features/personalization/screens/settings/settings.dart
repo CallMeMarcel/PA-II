@@ -4,6 +4,8 @@ import 'package:del_cafeshop/common/widgets/list_tiles/settings_menu_tile.dart';
 import 'package:del_cafeshop/common/widgets/list_tiles/user_profile_tile.dart';
 import 'package:del_cafeshop/common/widgets/texts/section_heading.dart';
 import 'package:del_cafeshop/features/personalization/screens/profile/profile.dart';
+import 'package:del_cafeshop/features/shop/screens/cart/cart.dart';
+import 'package:del_cafeshop/features/shop/screens/order/order.dart';
 import 'package:del_cafeshop/utils/constants/colors.dart';
 import 'package:del_cafeshop/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
@@ -46,9 +48,17 @@ class SettingScreen extends StatelessWidget {
                    const SectionHeading(title: 'Account Settings', showActionButton: false),
                    const SizedBox(height: TSizes.spaceBtwItems),
 
-                  const SettingsMenuTile(icon: Iconsax.shopping_cart, title: 'My Cart', subTitle: 'Add, remove products and move to checkout'),
-                  const SettingsMenuTile(icon: Iconsax.bag_tick, title: 'My Orders', subTitle: 'In Progress and Completed Orders'),
-                  const SettingsMenuTile(icon: Iconsax.bank, title: 'Bank Account', subTitle: 'Withdraw balance to registered bank Account'),
+                  SettingsMenuTile(
+                    icon: Iconsax.shopping_cart, 
+                    title: 'My Cart', 
+                    subTitle: 'Add, remove products and move to checkout',
+                    onTap: () => Get.to(() => const CartScreen()),),
+                  SettingsMenuTile(
+                    icon: Iconsax.bag_tick, 
+                    title: 'My Orders', 
+                    subTitle: 'In Progress and Completed Orders',
+                    onTap: () => Get.to(() => const OrderScreen()),
+                    ),
                   const SettingsMenuTile(icon: Iconsax.notification, title: 'Notifications', subTitle: 'Set any kind to notification message'),
                   const SettingsMenuTile(icon: Iconsax.security_card, title: 'Account Privacy', subTitle: 'Manage data usage and connected accounts'),
 

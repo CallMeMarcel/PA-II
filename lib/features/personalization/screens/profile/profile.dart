@@ -2,9 +2,11 @@ import 'package:del_cafeshop/common/widgets/appbar/appbar.dart';
 import 'package:del_cafeshop/common/widgets/images/circular_image.dart';
 import 'package:del_cafeshop/common/widgets/texts/section_heading.dart';
 import 'package:del_cafeshop/features/personalization/screens/profile/widgets/profile_menu.dart';
+import 'package:del_cafeshop/features/personalization/screens/settings/settings.dart';
 import 'package:del_cafeshop/utils/constants/image_strings.dart';
 import 'package:del_cafeshop/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -64,7 +66,7 @@ class ProfileScreen extends StatelessWidget {
 
               Center(
                 child: TextButton(
-                  onPressed: () {} 
+                  onPressed: () => Get.to(() => const SettingScreen()) 
                 , child: const Text('Close Account' , style: TextStyle(color: Colors.red),) 
                 ),
               )

@@ -15,14 +15,18 @@ class RoundedImages extends StatelessWidget {
     this.padding, 
     this.isNetworkImage = false , 
     this.onPressed, 
-    this.borderRadius = TSizes.md,
-  });
+    this.borderRadius = TSizes.md, 
+    this.errorWidget, 
+    this.placeholder,
 
+  });
   final double? width, height;
   final String imageUrl;
   final bool applyImageRadius;
-  final BoxBorder? border;
+  final BoxBorder? border; 
   final Color backgroundColor;
+  final Widget? errorWidget;
+  final Widget? placeholder;
   final BoxFit? fit;
   final EdgeInsetsGeometry? padding;
   final bool isNetworkImage;
@@ -39,8 +43,26 @@ class RoundedImages extends StatelessWidget {
         padding: padding,
         decoration: BoxDecoration(
           border: border, color: backgroundColor, borderRadius: BorderRadius.circular(borderRadius)),
-        child: ClipRRect(borderRadius: applyImageRadius ? BorderRadius.circular(TSizes.md) : BorderRadius.zero,
-        child: Image(fit: fit, image: isNetworkImage ? NetworkImage(imageUrl) : AssetImage(imageUrl) as ImageProvider)),
+        child: 
+        ClipRRect(
+          borderRadius: applyImageRadius ? BorderRadius.circular(TSizes.md) : BorderRadius.zero,
+        child: isNetworkImage
+      ? Image.network(
+          imageUrl,
+          fit: fit,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return placeholder ?? const Center(child: CircularProgressIndicator());
+          },
+          errorBuilder: (context, error, stackTrace) {
+            return errorWidget ?? const Icon(Icons.error);
+          },
+        )
+      : Image.asset(
+          imageUrl,
+          fit: fit,
+        ),
+        ),
       ),
     );
   }

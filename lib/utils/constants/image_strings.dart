@@ -21,6 +21,18 @@ class TImages {
   static const String food = "assets/icons/categories/food.png";
   static const String drink ="assets/icons/categories/drink.png";
 
+  // Failed Images
+  static const String failed = "assets/images/products/sad.jpg";
+
+  // Payment Methods images
+  static const String qris = "assets/icons/payment/qris.jpeg";
+  static const String dana = "assets/icons/payment/dana.jpeg";
+  static const String ovo = "assets/icons/payment/ovo.jpeg";
+  static const String gopay = "assets/icons/payment/gopay.jpeg";
+  static const String bri = "assets/icons/payment/bri.jpeg";
+  static const String mandiri = "assets/icons/payment/mandiri.jpeg";
+  static const String bca = "assets/icons/payment/bca.jpeg";
+
   // Settings Images
   static const String user = "assets/icons/user/user.png";
 

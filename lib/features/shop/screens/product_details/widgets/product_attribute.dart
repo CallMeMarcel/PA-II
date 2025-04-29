@@ -14,86 +14,117 @@ class ProductAttribute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
-    return  Column(
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Selected Attribute Pricing & Description
         RoundedContainer(
-
           backgroundColor: dark ? TColors.darkerGrey : TColors.grey,
-          child: Column(
-            children: [
-              /// Title
-             Row(
-  children: [
-    const SectionHeading(title: 'Variation', showActionButton: false),
-    const SizedBox(width: TSizes.spaceBtwItems),
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            const ProductTitleText(title: 'Price : ', smallSize: true),
-            // Harga Asli
-            Text(
-              'Rp.10000',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall!
-                  .apply(decoration: TextDecoration.lineThrough),
+          child: Padding(
+            padding: const EdgeInsets.all(TSizes.md),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Title + Price & Stock
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SectionHeading(
+                      title: 'Variation',
+                      showActionButton: false,
+                    ),
+                    const SizedBox(width: TSizes.spaceBtwItems),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Price Row
+                          Row(
+                            children: [
+                              const ProductTitleText(
+                                title: 'Price : ',
+                                smallSize: true,
+                              ),
+                              Text(
+                                'Rp.10000',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .apply(
+                                      decoration: TextDecoration.lineThrough,
+                                    ),
+                              ),
+                              const SizedBox(width: 8),
+                              const ProductPrice(price: '7500'),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+
+                          // Stock Row
+                          Row(
+                            children: [
+                              const ProductTitleText(
+                                title: 'Stock : ',
+                                smallSize: true,
+                              ),
+                              Text(
+                                'In Stock',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: TSizes.spaceBtwItems),
+
+                // Variation Description
+                const ProductTitleText(
+                  title:
+                      'This is the description of the product and it can go upto max 4 lines.',
+                  smallSize: true,
+                  maxLines: 4,
+                ),
+              ],
             ),
-            const SizedBox(width: 8), // Spasi antara harga asli dan harga diskon
-            // Harga Diskon
-            const ProductPrice(price: '7500'),
-          ],
+          ),
         ),
-        const SizedBox(height: 8), // Spasi antara harga dan stok
-        Row(
-          children: [
-            const ProductTitleText(title: 'Stock : ', smallSize: true),
-            Text(
-              'In Stock',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          ],
+        const SizedBox(height: TSizes.spaceBtwItems),
+
+        // Topping Section
+        const SectionHeading(
+          title: 'Toping (opsional)',
+          showActionButton: false,
+        ),
+        const SizedBox(height: TSizes.spaceBtwItems / 2),
+
+        // Topping Chips
+       Wrap(
+      spacing: 8,
+      children: [
+        CustomChoiceChip(
+          text: 'Sauce',
+          selected: true,
+          onSelected: (value) {},
+        ),
+        CustomChoiceChip(
+          text: 'Sambal Kacang',
+          selected: false,
+          onSelected: (value) {},
+        ),
+        CustomChoiceChip(
+          text: 'Mayones',
+          selected: false,
+          onSelected: (value) {},
         ),
       ],
     ),
-  ],
-),
-
-              /// Variation Description
-              const ProductTitleText(title: 'This is the description of the product and it can go upto max 4 lines.',
-              smallSize: true,
-              maxLines: 4,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: TSizes.spaceBtwItems,),
-      // Attributes
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start
-        ,
-  children: [
-    const SectionHeading(title: 'Toping (opsional)', showActionButton: false),
-    const SizedBox(height: TSizes.spaceBtwItems / 2),
-    Wrap(
-      spacing: 8, 
-      children: [
-    CustomChoiceChip(text: 'Sauce', selected: true, onSelected: (value){},),
-    CustomChoiceChip(text: 'Sambal Kacang', selected: false, onSelected: (value){}),
-    CustomChoiceChip(text: 'Mayones', selected: false, onSelected: (value){}),
-      ]
-    )
-   
-  ],
-),
 
       ],
-
-      
-      
     );
   }
 }
-
