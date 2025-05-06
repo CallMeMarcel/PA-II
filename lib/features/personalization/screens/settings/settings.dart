@@ -3,6 +3,7 @@ import 'package:del_cafeshop/common/widgets/custom_shapes/containers/primary_hea
 import 'package:del_cafeshop/common/widgets/list_tiles/settings_menu_tile.dart';
 import 'package:del_cafeshop/common/widgets/list_tiles/user_profile_tile.dart';
 import 'package:del_cafeshop/common/widgets/texts/section_heading.dart';
+import 'package:del_cafeshop/features/authentication/screens/login/login.dart';
 import 'package:del_cafeshop/features/personalization/screens/profile/profile.dart';
 import 'package:del_cafeshop/features/shop/screens/cart/cart.dart';
 import 'package:del_cafeshop/features/shop/screens/order/order.dart';
@@ -78,7 +79,7 @@ class SettingScreen extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceBtwSections,),
                   SizedBox(
                     width: double.infinity,
-                    child: OutlinedButton(onPressed: (){}, child: const Text('Logout')),
+                    child: OutlinedButton(onPressed: () => Get.to(() => const LoginScreen()), child: const Text('Logout')),
 
                   ),
                   const SizedBox(height: TSizes.spaceBtwSections * 2.5),

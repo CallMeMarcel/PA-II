@@ -4,11 +4,31 @@ import 'package:del_cafeshop/utils/constants/colors.dart';
 import 'package:del_cafeshop/utils/constants/text_strings.dart';
 import 'package:del_cafeshop/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeAppBar extends StatelessWidget {
-  const HomeAppBar({
-    super.key,
-  });
+class HomeAppBar extends StatefulWidget {
+  const HomeAppBar({super.key});
+
+  @override
+  State<HomeAppBar> createState() => _HomeAppBarState();
+}
+
+class _HomeAppBarState extends State<HomeAppBar> {
+  String? username;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedUsername = prefs.getString('username');
+    setState(() {
+      username = storedUsername;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +42,15 @@ class HomeAppBar extends StatelessWidget {
         children: [
           Text(
             TTexts.homeAppbarTitle,
-            style: Theme.of(context).textTheme.labelMedium!.apply(
+            style: Theme.of(context).textTheme.labelMedium!.copyWith(
                   color: darkMode ? TColors.lightGrey : TColors.darkGrey,
                 ),
           ),
           Text(
-            TTexts.homeAppbarSubTitle,
-            style: Theme.of(context).textTheme.headlineSmall!.apply(
+            username != null && username!.isNotEmpty
+                ? 'Hai, $username!'
+                : 'Hai, Pengguna!',
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   color: textColor,
                 ),
           ),

@@ -47,6 +47,8 @@ class Product {
     );
   }
 
+  get toppings => null;
+
   // Tambahkan method toJson jika diperlukan
   Map<String, dynamic> toJson() {
     return {
@@ -63,4 +65,16 @@ class Product {
       'category': category.toJson(), // Asumsikan ada method toJson di model Category
     };
   }
+}
+
+class Topping {
+  final String name;
+  final double? additionalPrice;
+  bool isSelected;
+
+  Topping({
+    required this.name,
+    this.additionalPrice,
+    this.isSelected = false,
+  });
 }

@@ -25,7 +25,7 @@ class _FormSignUPState extends State<FormSignUP> {
 
   // Fungsi registrasi user
   Future<void> registerUser() async {
-    final url = Uri.parse('http://192.168.32.183:8000/user/register');
+    final url = Uri.parse('http://192.168.17.183:8000/user/register');
 
     // Validasi input sebelum mengirim request
     if (nameController.text.trim().isEmpty ||

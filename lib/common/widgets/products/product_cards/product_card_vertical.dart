@@ -165,22 +165,10 @@ class ProductCardVertical extends StatelessWidget {
   }
 
 String _getImageUrl(String imagePath) {
-  if (imagePath.isEmpty) {
-    return TImages.failed;
-  }
-
-  if (!imagePath.startsWith('http')) {
-    // Misal imagePath = 'photos/qris/xxx.jpg'
-    return 'http://192.168.32.183:8000/storage/$imagePath';
-  }
-
-  if (imagePath.contains('127.0.0.1')) {
-    final updatedUrl = imagePath.replaceFirst('127.0.0.1', '192.168.32.183');
-    return updatedUrl;
-  }
-
-  return imagePath;
+  if (imagePath.startsWith('http')) return imagePath;
+  return 'http://192.168.17.183:8000/storage/photos/$imagePath';
 }
+
 
 
   Widget _buildAddToCartButton() {

@@ -4,7 +4,7 @@ import '../models/product.dart';
 
 class WishlistService {
   static Future<List<Product>> getWishlist() async {
-    final response = await http.get(Uri.parse('http://192.168.32.183:8000/admin/wishlist'));
+    final response = await http.get(Uri.parse('http://192.168.17.183:8000/admin/wishlist'));
 
     if (response.statusCode == 200) {
       List jsonData = json.decode(response.body);

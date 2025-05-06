@@ -6,48 +6,36 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 class SearchContainer extends StatelessWidget {
-  const SearchContainer({
-    super.key, 
-    required this.text, 
-    this.icon = Iconsax.search_normal , 
-    this.showBackgroound = true, 
-    this.showBorder = true,
-    this.onTap, 
-    this.padding = const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
-  });
-
-  final VoidCallback? onTap;
   final String text;
-  final IconData? icon;
-  final bool showBackgroound, showBorder;
-  final EdgeInsetsGeometry padding;
+  final TextEditingController? controller;
+  final bool showBorder;
+
+  const SearchContainer({
+    super.key,
+    required this.text,
+    this.controller,
+    this.showBorder = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final dark = THelperFunctions.isDarkMode(context);
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
-        child: Container(
-          width: TDeviceUtils.getScreenWidth(context),
-          padding: const EdgeInsets.all(TSizes.md),
-          decoration: BoxDecoration(
-            color: showBackgroound ? dark ? TColors.dark : TColors.light :Colors.transparent ,
-            borderRadius: BorderRadius.circular(TSizes.cardRadiusLg),
-            border:showBorder ? Border.all(color: TColors.grey) : null,
-          ),
-          child: Row(
-            children: [
-              Icon(icon, color: TColors.darkerGrey),
-              const SizedBox(width: TSizes.spaceBtwItems),
-              Text(text, style: Theme.of(context).textTheme.bodySmall),
-            ],
-          ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        border: showBorder
+            ? Border.all(color: Colors.grey)
+            : Border.all(color: Colors.transparent),
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+      ),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          hintText: text,
+          border: InputBorder.none,
+          icon: const Icon(Icons.search),
         ),
       ),
     );
   }
 }
-

@@ -23,13 +23,12 @@ class ProductDetail extends StatelessWidget {
     final dark = THelperFunctions.isDarkMode(context);
 
     return Scaffold(
-      bottomNavigationBar: const BottomAddCart(),
-
+      bottomNavigationBar: BottomAddCart(product: product),
       body: SingleChildScrollView(
         child: Column(
           children: [
             /// 1. Product Image Slider
-            const ProductImageSlider(),
+            ProductImageSlider(product: product),
 
             /// 2. Product Details
             Padding(
@@ -43,10 +42,10 @@ class ProductDetail extends StatelessWidget {
                   const RatingAndShare(),
 
                   /// Price, Title, Stock, Brand
-                  const ProductMetaData(),
+                  ProductMetaData(product: product),
 
                   /// Product Attributes
-                  const ProductAttribute(),
+                  ProductAttribute(product: product),
                   const SizedBox(height: TSizes.spaceBtwSections),
 
                   /// Checkout Button
@@ -62,14 +61,14 @@ class ProductDetail extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceBtwSections),
                   const SectionHeading(title: 'Description'),
                   const SizedBox(height: TSizes.spaceBtwSections),
-                  const ReadMoreText(
-                    'This is a product of Del Cafe, there can be other things that can be added to your cart but I just want to make this until here. Sorry for giving you a bad experience using this product.',
+                  ReadMoreText(
+                    product.description ?? 'No description available',
                     trimLines: 2,
                     trimMode: TrimMode.Line,
                     trimExpandedText: 'Less',
                     trimCollapsedText: 'Show More',
-                    moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-                    lessStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                    moreStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                    lessStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                   ),
 
                   /// Divider
@@ -78,20 +77,20 @@ class ProductDetail extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceBtwSections),
 
                   /// Reviews Section
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SectionHeading(title: 'Reviews (199)'),
-                IconButton(
-                  onPressed: () => Get.to(() => const ProductReviewsScreen()),
-                  icon: Icon(
-                    Iconsax.arrow_right_3,
-                    size: 24,
-                    color: dark ? Colors.white : Colors.black,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SectionHeading(title: 'Reviews (199)'),
+                      IconButton(
+                        onPressed: () => Get.to(() => const ProductReviewsScreen()),
+                        icon: Icon(
+                          Iconsax.arrow_right_3,
+                          size: 24,
+                          color: dark ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
                   const SizedBox(height: TSizes.spaceBtwSections),
                 ],
               ),

@@ -1,72 +1,52 @@
 import 'package:del_cafeshop/common/widgets/appbar/appbar.dart';
 import 'package:del_cafeshop/common/widgets/custom_shapes/curved_edges/curved_widget.dart';
 import 'package:del_cafeshop/common/widgets/icons/circular_icon.dart';
-import 'package:del_cafeshop/common/widgets/images/rounded_image.dart';
+import 'package:del_cafeshop/data/models/product.dart';
 import 'package:del_cafeshop/utils/constants/colors.dart';
-import 'package:del_cafeshop/utils/constants/image_strings.dart';
 import 'package:del_cafeshop/utils/constants/sizes.dart';
 import 'package:del_cafeshop/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 class ProductImageSlider extends StatelessWidget {
-  const ProductImageSlider({
-    super.key,
-  });
+  final Product product;
+
+  const ProductImageSlider({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
+    final imageUrl = product.image.isNotEmpty ? product.image : null;
+
     return CurvedEdgeWidget(
       child: Container(
-        color: dark ? TColors.dark : TColors.light ,
-        child:  Stack(
+        color: dark ? TColors.dark : TColors.light,
+        child: Stack(
           children: [
-            // Main large Image
-            const SizedBox(
+            /// Gambar utama produk
+            SizedBox(
               height: 400,
               child: Padding(
-              padding: EdgeInsets.all(TSizes.productImageRadius * 2),
-              child: Center(child: Image(image: AssetImage(TImages.productImages9))),
-            )),
-    
-            /// Image Slider
-            Positioned(
-              right:0 ,
-              left: TSizes.defaultSpace,
-              bottom: 30,
-              child: SizedBox( 
-                height: 80,
-                child: ListView.separated(
-                separatorBuilder: (_, __) => const SizedBox(width: TSizes.spaceBtwItems,), 
-                itemCount: 6,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                physics: const AlwaysScrollableScrollPhysics(), 
-                itemBuilder: (_, index) =>  RoundedImages(
-                  width: 80,
-                  backgroundColor: dark ? TColors.dark : TColors.white,
-                  border: Border.all(color: TColors.primary),
-                  padding: const EdgeInsets.all(TSizes.sm),
-                  imageUrl: TImages.productImages7 
-                  ),
+                padding: const EdgeInsets.all(TSizes.productImageRadius * 2),
+                child: Center(
+                  child: imageUrl != null
+                      ? Image.network(imageUrl)
+                      : const Icon(Icons.image_not_supported, size: 100),
                 ),
               ),
             ),
-    
-            // Appbar Icon
-         const TAppbar(
-  showBackArrow: true,
-  actions: [
-    CircularIcon(
-      icon: Iconsax.heart5,
-      color: Colors.red,
-      backgroundColor: Colors.transparent, // Menghilangkan background
-    ),
-  ],
-),
 
-           
+            /// Tombol kembali dan favorit
+            const TAppbar(
+              showBackArrow: true,
+              actions: [
+                CircularIcon(
+                  icon: Iconsax.heart5,
+                  color: Colors.red,
+                  backgroundColor: Colors.transparent,
+                ),
+              ],
+            ),
           ],
         ),
       ),

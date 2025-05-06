@@ -20,7 +20,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController searchController = TextEditingController();
   List<Product> products = [];
+  List<Product> filteredProducts = [];
   bool isLoading = true;
   String errorMessage = '';
 
@@ -28,6 +30,22 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _fetchProducts();
+    searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    final query = searchController.text.toLowerCase();
+    setState(() {
+      filteredProducts = products
+          .where((product) => product.title.toLowerCase().contains(query))
+          .toList();
+    });
   }
 
   Future<void> _fetchProducts() async {
@@ -36,10 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
         isLoading = true;
         errorMessage = '';
       });
-      
+
       final fetchedProducts = await ProductService.getProducts();
       setState(() {
         products = fetchedProducts;
+        filteredProducts = fetchedProducts; // tampilkan semua saat awal
       });
     } catch (e) {
       setState(() {
@@ -53,89 +72,90 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    body: SingleChildScrollView(
-      child: Column(
-        children: [
-          const PrimaryHeaderController(
-            child: Column(
-              children: [
-                /// -- AppBar -- ///
-                HomeAppBar(),
-                SizedBox(height: TSizes.spaceBtwSections),
-                
-                /// -- SearchBar -- ///
-                SearchContainer(text: 'Search in Store'),
-                SizedBox(height: TSizes.spaceBtwSections),
-                
-                /// -- Categories -- ///
-                Padding(
-                  padding: EdgeInsets.only(left: TSizes.defaultSpace), 
-                  child: Column(
-                    children: [
-                      SectionHeading(
-                        title: 'Popular Categories', 
-                        showActionButton: false, 
-                        textColor: Colors.white
-                      ),
-                      SizedBox(height: TSizes.spaceBtwSections),
-                      HomeCategory(),
-                    ],
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            PrimaryHeaderController(
+              child: Column(
+                children: [
+                  const HomeAppBar(),
+                  const SizedBox(height: TSizes.spaceBtwSections),
+
+                  /// Search Container
+                  SearchContainer(
+                    text: 'Search in Store',
+                    controller: searchController,
+                    showBorder: true,
                   ),
-                ),
-                SizedBox(height: TSizes.spaceBtwSections),
-              ],
-            ),
-          ),
-          
-          /// Body Content
-          Padding(
-            padding: const EdgeInsets.all(TSizes.defaultSpace),
-            child: Column(
-              children: [
-                const PromoSlider(banners: [TImages.promo1, TImages.promo2, TImages.promo3]),
-                const SizedBox(height: TSizes.spaceBtwSections),
 
-                /// Popular Products Section
-                SectionHeading(
-                  title: 'Popular Products', 
-                  onPressed: () {
-                    // Navigasi ke halaman semua produk jika diperlukan
-                  },
-                ),
-                const SizedBox(height: TSizes.spaceBtwItems),
+                  const SizedBox(height: TSizes.spaceBtwSections),
 
-                /// Product Grid - Menampilkan maksimal 4 produk pertama
-                if (isLoading)
-                  const Center(child: CircularProgressIndicator())
-                else if (errorMessage.isNotEmpty)
-                  Column(
-                    children: [
-                      Text('Error: $errorMessage'),
-                      ElevatedButton(
-                        onPressed: _fetchProducts,
-                        child: const Text('Retry'),
-                      ),
-                    ],
-                  )
-                else if (products.isEmpty)
-                  const Text('No products available')
-                else
-                  GridLayout(
-                    itemCount: products.length > 4 ? 4 : products.length,
-                    itemBuilder: (_, index) => ProductCardVertical(
-                      product: products[index],
+                  Padding(
+                    padding: const EdgeInsets.only(left: TSizes.defaultSpace),
+                    child: Column(
+                      children: const [
+                        SectionHeading(
+                          title: 'Popular Categories',
+                          showActionButton: false,
+                          textColor: Colors.white,
+                        ),
+                        SizedBox(height: TSizes.spaceBtwSections),
+                        HomeCategory(),
+                      ],
                     ),
                   ),
-              ],
+                  const SizedBox(height: TSizes.spaceBtwSections),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
 
-  // ... build method akan kita pindahkan di bawah
+            /// Body Content
+            Padding(
+              padding: const EdgeInsets.all(TSizes.defaultSpace),
+              child: Column(
+                children: [
+                  const PromoSlider(banners: [
+                    TImages.promo1,
+                    TImages.promo2,
+                    TImages.promo3,
+                  ]),
+                  const SizedBox(height: TSizes.spaceBtwSections),
+
+                  SectionHeading(title: 'Popular Products', onPressed: () {}),
+
+                  const SizedBox(height: TSizes.spaceBtwItems),
+
+                  if (isLoading)
+                    const Center(child: CircularProgressIndicator())
+                  else if (errorMessage.isNotEmpty)
+                    Column(
+                      children: [
+                        Text('Error: $errorMessage'),
+                        ElevatedButton(
+                          onPressed: _fetchProducts,
+                          child: const Text('Retry'),
+                        ),
+                      ],
+                    )
+                  else if (filteredProducts.isEmpty)
+                    const Text('No products found.')
+                  else
+                    GridLayout(
+                      itemCount: filteredProducts.length > 4
+                          ? 4
+                          : filteredProducts.length,
+                      itemBuilder: (_, index) => ProductCardVertical(
+                        product: filteredProducts[index],
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
